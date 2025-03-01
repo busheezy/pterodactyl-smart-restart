@@ -32,6 +32,8 @@ async function run() {
     } catch (error) {
       if (error instanceof Error) {
         await failureAlert(server, error.message);
+      } else {
+        console.error(error);
       }
     }
   });
