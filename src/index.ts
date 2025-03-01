@@ -12,10 +12,6 @@ async function run() {
 
   await Bluebird.mapSeries(servers, async (server) => {
     try {
-      if (server.attributes.status !== null) {
-        return;
-      }
-
       const resources = await getServerResources(server.attributes.identifier);
       const uptimeDate = subMilliseconds(new Date(), resources.attributes.resources.uptime);
       const hoursSinceRestart = differenceInHours(new Date(), uptimeDate);
