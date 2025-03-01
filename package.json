@@ -1,0 +1,42 @@
+{
+  "name": "pterodactyl-smart-restart",
+  "version": "1.0.0",
+  "description": "Automatically update CS2 servers on Pterodactyl",
+  "author": {
+    "name": "BuSheeZy",
+    "email": "BuSheeZy@gmail.com",
+    "url": "https://busheezy.dev"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "prestart": "pnpm build",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "pnpm lint --fix",
+    "format": "pnpm exec prettier . --write"
+  },
+  "os": ["linux"],
+  "keywords": ["pterodactyl", "cs2", "updater", "counter-strike"],
+  "license": "ISC",
+  "packageManager": "pnpm@10.4.1",
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@tsconfig/node22": "^22.0.0",
+    "@types/bluebird": "^3.5.42",
+    "@types/eslint-config-prettier": "^6.11.3",
+    "@types/node": "^22.13.5",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.1",
+    "prettier": "3.5.2",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.24.1"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "bluebird": "^3.7.2",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.4.7",
+    "webhook-discord": "^3.7.8",
+    "zod": "^3.24.2"
+  }
+}
