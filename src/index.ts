@@ -26,22 +26,12 @@ async function run() {
         return;
       }
 
-      await successAlert(
-        server.attributes.name,
-        server.attributes.identifier,
-        server.attributes.node,
-        hoursSinceRestart,
-      );
+      await successAlert(server, hoursSinceRestart);
 
       await restartServer(server.attributes.identifier);
     } catch (error) {
       if (error instanceof Error) {
-        await failureAlert(
-          server.attributes.name,
-          server.attributes.identifier,
-          server.attributes.node,
-          error.message,
-        );
+        await failureAlert(server, error.message);
       }
     }
   });

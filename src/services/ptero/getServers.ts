@@ -1,65 +1,9 @@
 import { pteroClient } from './pteroClient';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
+import { PteroServerResponse } from './servers.types';
 
 const invocationsPath = path.join(__dirname, '..', '..', '..', 'invocations.txt');
-
-export interface PteroServerResponse {
-  data: PteroServer[];
-}
-
-export interface PteroServer {
-  attributes: ServerAttributes;
-}
-
-export interface Relationships {
-  allocations: Allocations;
-}
-
-export interface Allocations {
-  object: string;
-  data: AllocationsData[];
-}
-
-export interface AllocationsData {
-  object: string;
-  attributes: Attributes;
-}
-
-export interface Attributes {
-  id: number;
-  ip: string;
-  ip_alias: string;
-  port: number;
-  notes: string | null;
-  is_default: boolean;
-}
-
-export type ServerStatus =
-  | 'installing'
-  | 'install_failed'
-  | 'reinstall_failed'
-  | 'suspended'
-  | 'restoring_backup'
-  | null;
-
-export interface ServerAttributes {
-  server_owner: boolean;
-  identifier: string;
-  uuid: string;
-  name: string;
-  node: string;
-  invocation: string;
-  sftp_details: SftpDetails;
-  description: string;
-  status: ServerStatus;
-  relationships: Relationships;
-}
-
-export interface SftpDetails {
-  ip: string;
-  port: number;
-}
 
 async function getAllowedServerInvocations() {
   try {
