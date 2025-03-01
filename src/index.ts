@@ -1,10 +1,11 @@
 import Bluebird from 'bluebird';
 import { getCsServers } from './services/ptero/getServers';
-import { failureAlert } from './services/discord';
+import { failureAlert, successAlert } from './services/discord';
 import { getServerResources } from './services/ptero/getServerResources';
-import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
 import { subMilliseconds } from 'date-fns/subMilliseconds';
-import { subHours } from 'date-fns/subHours';
+import { differenceInHours } from 'date-fns/differenceInHours';
+import { getPlayerCountFromServer } from './services/gamedig/getPlayersFromServer';
+import { restartServer } from './services/ptero/restartServer';
 
 async function run() {
   const servers = await getCsServers();
@@ -17,18 +18,27 @@ async function run() {
 
       const resources = await getServerResources(server.attributes.identifier);
       const uptimeDate = subMilliseconds(new Date(), resources.attributes.resources.uptime);
-      const uptimeThreshold = subHours(new Date(), 6);
+      const hoursSinceRestart = differenceInHours(new Date(), uptimeDate);
 
-      if (uptimeDate > uptimeThreshold) {
-        console.log(`${server.attributes.name} has been up for less than 6 hours, not restarting`);
+      if (hoursSinceRestart < 6) {
         return;
       }
 
-      console.log(`${server.attributes.name} has been up for ${formatDistanceToNow(uptimeDate)}`);
-    } catch (error) {
-      console.error(`Error checking server ${server.attributes.name}`);
-      console.error(error);
+      const playerCount = await getPlayerCountFromServer(server);
 
+      if (playerCount !== 0) {
+        return;
+      }
+
+      await successAlert(
+        server.attributes.name,
+        server.attributes.identifier,
+        server.attributes.node,
+        hoursSinceRestart,
+      );
+
+      await restartServer(server.attributes.identifier);
+    } catch (error) {
       if (error instanceof Error) {
         await failureAlert(
           server.attributes.name,

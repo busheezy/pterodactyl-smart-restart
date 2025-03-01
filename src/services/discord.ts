@@ -3,12 +3,17 @@ import { env } from '../env';
 
 const hook = new Webhook(env.DISCORD_WEBHOOK_URL);
 
-export async function successAlert(name: string, identifier: string, node: string) {
+export async function successAlert(
+  name: string,
+  identifier: string,
+  node: string,
+  hoursSinceRestart: number,
+) {
   const embed = new MessageBuilder()
     .setName('Ptero Restarter')
     .setTitle(name)
     .setColor('#00FF00')
-    .addField('Status', 'Success', true)
+    .setDescription(`Server has been restarted after ${hoursSinceRestart} hours of uptime!`)
     .addField('Identifier', identifier)
     .addField('Node', node)
     .setURL(`${env.PTERO_URL}/server/$identifier}`)
@@ -26,7 +31,6 @@ export async function failureAlert(
   const embed = new MessageBuilder()
     .setName('Ptero Restarter')
     .setTitle(name)
-    .addField('Status', 'Failure', true)
     .setColor('#FF0000')
     .setDescription(errorMessage)
     .addField('Identifier', identifier)

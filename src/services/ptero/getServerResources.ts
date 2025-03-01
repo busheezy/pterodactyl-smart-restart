@@ -21,15 +21,9 @@ export interface ServerResourcesAttributesResources {
 }
 
 export async function getServerResources(serverIdentifier: string): Promise<ServerResources> {
-  try {
-    const { data: serverResourcesData } = await pteroClient.get<ServerResources>(
-      `/servers/${serverIdentifier}/resources`,
-    );
+  const { data: serverResourcesData } = await pteroClient.get<ServerResources>(
+    `/servers/${serverIdentifier}/resources`,
+  );
 
-    return serverResourcesData;
-  } catch (error) {
-    console.error(`Error getting server resources ${serverIdentifier}`);
-    console.error(error);
-    throw error;
-  }
+  return serverResourcesData;
 }

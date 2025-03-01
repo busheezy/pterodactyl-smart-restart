@@ -15,8 +15,15 @@
     "lint:fix": "pnpm lint --fix",
     "format": "pnpm exec prettier . --write"
   },
-  "os": ["linux"],
-  "keywords": ["pterodactyl", "cs2", "updater", "counter-strike"],
+  "os": [
+    "linux"
+  ],
+  "keywords": [
+    "pterodactyl",
+    "cs2",
+    "updater",
+    "counter-strike"
+  ],
   "license": "ISC",
   "packageManager": "pnpm@10.4.1",
   "devDependencies": {
@@ -24,6 +31,7 @@
     "@tsconfig/node22": "^22.0.0",
     "@types/bluebird": "^3.5.42",
     "@types/eslint-config-prettier": "^6.11.3",
+    "@types/gamedig": "^5.0.3",
     "@types/node": "^22.13.5",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.1",
@@ -36,6 +44,7 @@
     "bluebird": "^3.7.2",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
+    "gamedig": "^5.2.0",
     "webhook-discord": "^3.7.8",
     "zod": "^3.24.2"
   }

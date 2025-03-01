@@ -12,6 +12,29 @@ export interface PteroServer {
   attributes: ServerAttributes;
 }
 
+export interface Relationships {
+  allocations: Allocations;
+}
+
+export interface Allocations {
+  object: string;
+  data: AllocationsData[];
+}
+
+export interface AllocationsData {
+  object: string;
+  attributes: Attributes;
+}
+
+export interface Attributes {
+  id: number;
+  ip: string;
+  ip_alias: string;
+  port: number;
+  notes: string | null;
+  is_default: boolean;
+}
+
 export type ServerStatus =
   | 'installing'
   | 'install_failed'
@@ -30,6 +53,7 @@ export interface ServerAttributes {
   sftp_details: SftpDetails;
   description: string;
   status: ServerStatus;
+  relationships: Relationships;
 }
 
 export interface SftpDetails {
