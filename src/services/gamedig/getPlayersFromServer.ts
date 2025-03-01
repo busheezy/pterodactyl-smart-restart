@@ -1,5 +1,5 @@
 import { GameDig } from 'gamedig';
-import { PteroServer } from '../ptero/getServers';
+import { PteroServer } from '../ptero/servers.types';
 
 export async function getPlayerCountFromServer(pteroServer: PteroServer): Promise<number> {
   if (pteroServer.attributes.relationships.allocations.data.length === 0) {
