@@ -1,5 +1,5 @@
 import Bluebird from 'bluebird';
-import { getCsServers } from './services/ptero/getCsServers';
+import { getCsServers } from './services/ptero/getServers';
 import { failureAlert } from './services/discord';
 import { getServerResources } from './services/ptero/getServerResources';
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';

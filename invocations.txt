@@ -1,0 +1,2 @@
+./game/cs2.sh
+./srcds_run

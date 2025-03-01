@@ -1,4 +1,8 @@
 import { pteroClient } from './pteroClient';
+import * as fs from 'node:fs/promises';
+import * as path from 'node:path';
+
+const invocationsPath = path.join(__dirname, '..', '..', '..', 'invocations.txt');
 
 export interface PteroServerResponse {
   data: PteroServer[];
@@ -33,24 +37,34 @@ export interface SftpDetails {
   port: number;
 }
 
+async function getAllowedServerInvocations() {
+  try {
+    const invocations = await fs.readFile(invocationsPath, 'utf-8');
+    return invocations.split('\n');
+  } catch (error) {
+    console.error('Error reading invocations.json');
+    console.error(error);
+    return [];
+  }
+}
+
 export async function getCsServers() {
+  const allowedServerInvocations = await getAllowedServerInvocations();
+
   const {
     data: { data: servers },
   } = await pteroClient.get<PteroServerResponse>('/');
 
   const filteredServers = servers.filter((server) => {
-    if (
-      !server.attributes.invocation.startsWith('./game/cs2.sh') &&
-      !server.attributes.invocation.startsWith('./srcds_run')
-    ) {
-      return false;
-    }
-
     if (server.attributes.status !== null) {
       return false;
     }
 
-    return true;
+    const allowed = allowedServerInvocations.some((invocation) => {
+      return server.attributes.invocation.startsWith(invocation);
+    });
+
+    return allowed;
   });
 
   return filteredServers;
